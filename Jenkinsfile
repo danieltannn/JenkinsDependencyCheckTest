@@ -12,6 +12,7 @@ pipeline {
 					dependencyCheck(additionalArguments: '''
 						--format XML \
 						--format HTML \
+						--supression suppression.xml \
 						--prettyPrint \
 						--out .
 					''',
