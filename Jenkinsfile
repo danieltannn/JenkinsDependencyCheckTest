@@ -3,19 +3,25 @@ pipeline {
 	stages {
 		stage('Checkout SCM') {
 			steps {
-				git 'https://github.com/danieltannn/JenkinsDependencyCheckTest.git'
+				git 'https://github.com/hellogeraldblah/JenkinsDependencyCheckTest.git'
 			}
 		}
-
-		stage('OWASP DependencyCheck') {
+		stage('OWASP Dependency-Check') {
 			steps {
-				dependencyCheck additionalArguments: '--format HTML --format XML', odcInstallation: 'Default'
+				nodejs(nodeJSInstallationName: 'nodejs') {
+					dependencyCheck(additionalArguments: '''
+						--format XML \
+						--prettyPrint \
+						--out .
+					''',
+					odcInstallation: 'dependency-check')
+				}
 			}
-		}
-	}	
-	post {
-		success {
-			dependencyCheckPublisher pattern: 'dependency-check-report.xml'
+			post {
+				success {
+					dependencyCheckPublisher pattern: 'dependency-check-report.xml'
+				}
+			}
 		}
 	}
 }
