@@ -11,6 +11,7 @@ pipeline {
 				nodejs(nodeJSInstallationName: 'nodejs') {
 					dependencyCheck(additionalArguments: '''
 						--format XML \
+						--format HTML \
 						--prettyPrint \
 						--out .
 					''',
